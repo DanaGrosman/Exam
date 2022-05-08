@@ -43,6 +43,8 @@ public class Runner {
 					e.printStackTrace();
 				}
 			}
+			objStream.close();
+			file.close();
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -53,7 +55,7 @@ public class Runner {
 		Random rand = new Random();
 		int selectedObject = rand.nextInt(4) + 1;
 
-		try (FileOutputStream fileOut = new FileOutputStream("files/selectedObjects.dat");
+		try (FileOutputStream fileOut = new FileOutputStream("files/selectedObjects.dat", true);
 				ObjectOutputStream objOut = new ObjectOutputStream(fileOut)) {
 
 			switch (selectedObject) {
@@ -75,6 +77,7 @@ public class Runner {
 			}
 			}
 			objOut.close();
+			fileOut.close();
 		}
 	}
 }
