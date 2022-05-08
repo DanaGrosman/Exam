@@ -1,6 +1,7 @@
 package ajbc.exam3.runner.copy;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,7 +16,7 @@ import ajbc.exam3.classes.Food.Taste;
 
 public class Runner {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
 		Food pineapple = new Food("pineapple", Taste.SWEET, Macronutrients.CARBOHYDRATE);
 		Food lemon = new Food("Lemon", Taste.SOUR, Macronutrients.CARBOHYDRATE);
 		Dragon dragon1 = new Dragon("Drogon", LocalDate.of(800, 12, 12), 10);
@@ -28,11 +29,11 @@ public class Runner {
 
 		randomObjectAndWriteToFile(pineapple, lemon, dragon1, dragon2);
 		randomObjectAndWriteToFile(pineapple, lemon, dragon1, dragon2);
-		//readObjectsFromFile();
+		readObjectsFromFile();
 	}
 
 	private static void readObjectsFromFile() {
-		try (FileInputStream file = new FileInputStream("files/selectedObjects.txt");
+		try (FileInputStream file = new FileInputStream("files/selectedObjects.dat");
 				ObjectInputStream objStream = new ObjectInputStream(file);) {
 
 			for (int i = 1; i <= 2; i++) {
@@ -47,11 +48,12 @@ public class Runner {
 		}
 	}
 
-	private static void randomObjectAndWriteToFile(Food pineapple, Food lemon, Dragon dragon1, Dragon dragon2) {
+	private static void randomObjectAndWriteToFile(Food pineapple, Food lemon, Dragon dragon1, Dragon dragon2)
+			throws FileNotFoundException, IOException {
 		Random rand = new Random();
 		int selectedObject = rand.nextInt(4) + 1;
 
-		try (FileOutputStream fileOut = new FileOutputStream("files/selectedObjects.txt");
+		try (FileOutputStream fileOut = new FileOutputStream("files/selectedObjects.dat");
 				ObjectOutputStream objOut = new ObjectOutputStream(fileOut)) {
 
 			switch (selectedObject) {
@@ -72,10 +74,8 @@ public class Runner {
 				break;
 			}
 			}
-			
+
 			objOut.close();
-		} catch (IOException e) {
-			System.out.println(e);
-		}		
+		}
 	}
 }
