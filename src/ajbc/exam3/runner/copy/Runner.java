@@ -74,7 +74,6 @@ public class Runner {
 				break;
 			}
 			}
-
 			objOut.close();
 		}
 	}
